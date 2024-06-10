@@ -18,18 +18,19 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            gap: 50px;
+            gap: 20px;
         }
         .form-container {
             flex: 1;
-            max-width: 600px;
+            max-width: 400px;
         }
         form {
             background-color: #f9f9f9;
-            padding: 40px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
+            text-align: left;
         }
         label {
             display: block;
@@ -39,8 +40,21 @@
         input[type="datetime-local"],
         input[type="file"] {
             padding: 10px;
-            width: 100%;
+            width: calc(100% - 22px);
             margin: 10px 0;
+            display: block;
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+        }
+        .form-group input[type="file"] {
+            flex: 1;
+        }
+        .form-group input[type="submit"] {
+            margin-left: 10px;
+            width: auto;
+            flex: 0 0 auto;
         }
         input[type="submit"] {
             background-color: #006973;
@@ -73,19 +87,21 @@
                 <label for="description">Description:</label>
                 <input type="text" id="description" name="description" required>
 
-                <label for="image">Image:</label>
-                <input type="file" id="image" name="image" required>
-
-                <input type="submit" value="Submit">
+                <div class="form-group">
+                    <label for="image">Image:</label>
+                    <input type="file" id="image" name="image" required>
+                    <input type="submit" value="Submit">
+                </div>
             </form>
         </div>
         <div class="form-container">
             <h1>Upload Behind the Scenes Image</h1>
             <form id="behindScenesForm">
-                <label for="behindScenesImage">Image:</label>
-                <input type="file" id="behindScenesImage" name="behindScenesImage" required>
-
-                <input type="submit" value="Upload Image">
+                <label for="behindScenesImage">Upload Behind the Scenes Image:</label>
+                <div class="form-group">
+                    <input type="file" id="behindScenesImage" name="behindScenesImage" required>
+                    <input type="submit" value="Upload Image">
+                </div>
             </form>
         </div>
     </div>
