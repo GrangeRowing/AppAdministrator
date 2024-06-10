@@ -14,7 +14,21 @@
             max-width: 200px;
             margin-bottom: 20px;
         }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .form-container {
+            flex: 1;
+            max-width: 400px;
+        }
         form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
         label {
@@ -26,8 +40,7 @@
         input[type="file"] {
             padding: 10px;
             width: 100%;
-            max-width: 300px;
-            margin: 10px auto;
+            margin: 10px 0;
         }
         input[type="submit"] {
             background-color: #006973;
@@ -43,35 +56,39 @@
     </style>
 </head>
 <body>
-    <img src="Grange Logo for White Background copy.jpg" alt="The Grange School Rowing Club Logo" class="logo">
-    <h1>Upload Race Event</h1>
-    <form id="raceEventForm">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
+    <img src="Grange%20Logo%20for%20White%20Background%20copy.jpg" alt="The Grange School Rowing Club Logo" class="logo">
+    <div class="container">
+        <div class="form-container">
+            <h1>Upload Race Event</h1>
+            <form id="raceEventForm">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
 
-        <label for="date">Date:</label>
-        <input type="datetime-local" id="date" name="date" required>
+                <label for="date">Date:</label>
+                <input type="datetime-local" id="date" name="date" required>
 
-        <label for="location">Location:</label>
-        <input type="text" id="location" name="location" required>
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
 
-        <label for="description">Description:</label>
-        <input type="text" id="description" name="description" required>
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required>
 
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image" required>
+                <label for="image">Image:</label>
+                <input type="file" id="image" name="image" required>
 
-        <input type="submit" value="Submit">
-    </form>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div class="form-container">
+            <h1>Upload Behind the Scenes Image</h1>
+            <form id="behindScenesForm">
+                <label for="behindScenesImage">Image:</label>
+                <input type="file" id="behindScenesImage" name="behindScenesImage" required>
 
-    <h1>Upload Behind the Scenes Image</h1>
-    <form id="behindScenesForm">
-        <label for="behindScenesImage">Image:</label>
-        <input type="file" id="behindScenesImage" name="behindScenesImage" required>
-
-        <input type="submit" value="Upload Image">
-    </form>
-
+                <input type="submit" value="Upload Image">
+            </form>
+        </div>
+    </div>
     <script>
         const supabaseUrl = 'https://guvxrryswudpkkpwkryp.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1dnhycnlzd3VkcGtrcHdrcnlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcyNTMwOTUsImV4cCI6MjAzMjgyOTA5NX0.4bYiLSgPYpFgwNnceSDsgSYyBN3jSvn7Tj1SGXYP-D0';  // Replace 'your-anon-key' with the actual anon key
@@ -137,4 +154,3 @@
     </script>
 </body>
 </html>
-
