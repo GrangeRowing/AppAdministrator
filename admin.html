@@ -28,6 +28,7 @@
             background-color: #f9f9f9;
             padding: 20px;
             border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
             text-align: left;
         }
@@ -116,64 +117,66 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1dnhycnlzd3VkcGtrcHdrcnlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcyNTMwOTUsImV4cCI6MjAzMjgyOTA5NX0.4bYiLSgPYpFgwNnceSDsgSYyBN3jSvn7Tj1SGXYP-D0';  // Replace 'your-anon-key' with the actual anon key
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // Handle Race Event Form Submission
-        document.getElementById('raceEventForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
+        // Ensure Supabase is initialized before using it
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle Race Event Form Submission
+            document.getElementById('raceEventForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
 
-            const title = document.getElementById('title').value;
-            const date = document.getElementById('date').value;
-            const location = document.getElementById('location').value;
-            const description = document.getElementById('description').value;
-            const image = document.getElementById('image').files[0];
+                const title = document.getElementById('title').value;
+                const date = document.getElementById('date').value;
+                const location = document.getElementById('location').value;
+                const description = document.getElementById('description').value;
+                const image = document.getElementById('image').files[0];
 
-            if (image) {
-                const { data: uploadData, error: uploadError } = await supabase
-                    .storage
-                    .from('Race Events Images')
-                    .upload(`public/${image.name}`, image);
+                if (image) {
+                    const { data: uploadData, error: uploadError } = await supabase
+                        .storage
+                        .from('Race Events Images')
+                        .upload(`public/${image.name}`, image);
 
-                if (uploadError) {
-                    console.error('Error uploading image:', uploadError);
-                    return;
+                    if (uploadError) {
+                        console.error('Error uploading image:', uploadError);
+                        return;
+                    }
+
+                    const imageUrl = `${supabaseUrl}/storage/v1/object/public/${uploadData.Key}`;
+
+                    const { data: insertData, error: insertError } = await supabase
+                        .from('race_events')
+                        .insert([
+                            { title, date, location, description, image_url: imageUrl }
+                        ]);
+
+                    if (insertError) {
+                        console.error('Error inserting data:', insertError);
+                    } else {
+                        alert('Race event uploaded successfully!');
+                    }
                 }
+            });
 
-                const imageUrl = `${supabaseUrl}/storage/v1/object/public/${uploadData.Key}`;
+            // Handle Behind the Scenes Form Submission
+            document.getElementById('behindScenesForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
 
-                const { data: insertData, error: insertError } = await supabase
-                    .from('race_events')
-                    .insert([
-                        { title, date, location, description, image_url: imageUrl }
-                    ]);
+                const behindScenesImage = document.getElementById('behindScenesImage').files[0];
 
-                if (insertError) {
-                    console.error('Error inserting data:', insertError);
-                } else {
-                    alert('Race event uploaded successfully!');
+                if (behindScenesImage) {
+                    const { data: uploadData, error: uploadError } = await supabase
+                        .storage
+                        .from('Behind the Scenes')
+                        .upload(`public/${behindScenesImage.name}`, behindScenesImage);
+
+                    if (uploadError) {
+                        console.error('Error uploading behind the scenes image:', uploadError);
+                        return;
+                    }
+
+                    alert('Behind the scenes image uploaded successfully!');
                 }
-            }
-        });
-
-        // Handle Behind the Scenes Form Submission
-        document.getElementById('behindScenesForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const behindScenesImage = document.getElementById('behindScenesImage').files[0];
-
-            if (behindScenesImage) {
-                const { data: uploadData, error: uploadError } = await supabase
-                    .storage
-                    .from('Behind the Scenes')
-                    .upload(`public/${behindScenesImage.name}`, behindScenesImage);
-
-                if (uploadError) {
-                    console.error('Error uploading behind the scenes image:', uploadError);
-                    return;
-                }
-
-                alert('Behind the scenes image uploaded successfully!');
-            }
+            });
         });
     </script>
 </body>
 </html>
-
